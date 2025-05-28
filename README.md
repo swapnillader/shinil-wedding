@@ -1,1 +1,0 @@
-# shinil-wedding
