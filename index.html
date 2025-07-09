@@ -134,7 +134,12 @@ To know her is to see a glimpse of the Father’s heart. And to walk beside her?
                 </div>
                 <div class="col-lg-6 order-lg-1" data-aos="fade-right" data-aos-delay="300">
                     <h3 class="story-name">Eugene - The Innovator</h3> <!-- UPDATE -->
-                    <p class="text-muted">[A short, engaging paragraph about Name 2...]</p> <!-- UPDATE -->
+                    <p class="text-muted">He moves through the world not just seeing what is, but envisioning what could be, 
+                        his mind a vibrant forge of ideas and possibilities & love & care for everyone ...he is the one who sloved all my problems through his creative , funny & lovely ideas!! 
+                        It's in the quiet moments, watching him in excited spark in his eyes when he finally cracks a solution, that I truly grasp the depth of his innovative spirit. He doesn't just build or create; he breathes life into concepts, 
+                        transforming the abstract into something tangible and often, something beautiful. Just like he did in my life bring lots of happiness and hope that directed from lord. 
+                        His unwavering belief in progress, coupled with a relentless drive to improve and invent, isn't just a part of who he is—it's a light that illuminates our shared journey, inspiring me every single day. 
+                        He is godly man who always try to find the happiness and spread lord's love everywhere he go..a wonderful inovator of my life who slove all the problems of mine.</p> <!-- UPDATE -->
                 </div>
             </div>
             <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="200">
@@ -159,8 +164,8 @@ This is not just our story—it’s a testimony. A journey of faith, of grace, a
                     <div class="detail-card h-100">
                         <div class="detail-icon"><i class="bi bi-calendar-heart"></i></div>
                         <h3>Date & Time</h3>
-                        <p>[Full Date, e.g., Saturday, October 26th, 2024]</p> <!-- UPDATE -->
-                        <p>[Time, e.g., Ceremony at 4:00 PM, Reception to follow]</p> <!-- UPDATE -->
+                        <p>Friday,September 5th, 2025</p> <!-- UPDATE -->
+                        <p>Ceremony at 7:00 PM, Dinner to follow</p> <!-- UPDATE -->
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
@@ -222,14 +227,11 @@ This is not just our story—it’s a testimony. A journey of faith, of grace, a
         <div class="container">
             <div class="section-title text-center" data-aos="fade-up">
                 <h2>Join Us?</h2>
-                <p>We'd love to celebrate with you. Please RSVP by [RSVP DEADLINE DATE].</p> <!-- UPDATE -->
+                <p>We'd love to celebrate with you. Please RSVP by August 30th, 2025.</p> <!-- Updated RSVP deadline -->
             </div>
             <div class="row justify-content-center">
                 <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
-                    <form name="event-rsvp" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" class="rsvp-form">
-                        <input type="hidden" name="form-name" value="event-rsvp" />
-                        <p class="d-none"><label>Don’t fill this out: <input name="bot-field" /></label></p>
-
+                    <form id="rsvpForm" class="rsvp-form" method="POST">
                         <div class="row g-3 mb-3">
                             <div class="col-md-6">
                                 <label for="name" class="form-label">Full Name(s)*</label>
@@ -266,14 +268,23 @@ This is not just our story—it’s a testimony. A journey of faith, of grace, a
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label for="dietary" class="form-label">Dietary Needs or Allergies</label>
-                                <input type="text" class="form-control" id="dietary" name="dietary" placeholder="e.g., Vegetarian, Gluten-Free">
+                                <label for="food_preference" class="form-label">Food Preference*</label>
+                                <div class="mt-2">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="food_preference" id="vegPreference" value="Vegetarian" checked required>
+                                        <label class="form-check-label" for="vegPreference">Vegetarian</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="food_preference" id="nonVegPreference" value="Non-Vegetarian">
+                                        <label class="form-check-label" for="nonVegPreference">Non-Vegetarian</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="song_request" class="form-label">Got a bible verse to share with us?</label>
-                            <input type="text" class="form-control" id="song_request" name="song_request" placeholder="Help us build this journey memorable!">
+                            <label for="bible_verse" class="form-label">Got a bible verse to share with us?</label>
+                            <input type="text" class="form-control" id="bible_verse" name="bible_verse" placeholder="Help us build this journey memorable!">
                         </div>
 
                         <div class="mb-4">
@@ -281,10 +292,10 @@ This is not just our story—it’s a testimony. A journey of faith, of grace, a
                             <textarea class="form-control" id="message" name="message" rows="3"></textarea>
                         </div>
 
-                        <div data-netlify-recaptcha="true"></div>
+                        <div id="formStatus" class="alert d-none mb-3" role="alert"></div>
 
                         <div class="text-center">
-                            <button type="submit" class="btn btn-secondary btn-lg">Send RSVP</button>
+                            <button type="submit" id="submitBtn" class="btn btn-secondary btn-lg">Send RSVP</button>
                         </div>
                     </form>
                 </div>
