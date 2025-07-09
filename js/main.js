@@ -160,4 +160,125 @@
         window.addEventListener('load', toggleGuestDetails); // Initial check
     }
 
+    /**
+     * RSVP Form Submission Handling with Google Sheets
+     */
+    const rsvpForm = select('#rsvpForm');
+    const formStatus = select('#formStatus');
+    const submitBtn = select('#submitBtn');
+
+    if (rsvpForm) {
+        rsvpForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Change button state
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending...';
+            }
+            
+            // Get form data
+            const formData = new FormData(rsvpForm);
+            
+            // Convert FormData to URL params (this is more reliable for Google Apps Script)
+            const params = new URLSearchParams();
+            for (const pair of formData) {
+                params.append(pair[0], pair[1]);
+            }
+            
+            // Add timestamp
+            params.append('timestamp', new Date().toISOString());
+            
+            // Google Apps Script Web App URL - REPLACE WITH YOUR SCRIPT URL
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbxYUmM8jDFn7YeaCbcsYhAT-zv5ZxDtjLfBhaQq75Gg8DaBlsR5CWiv6naZFZzzwNGN/exec';
+            
+            // Submit form to Google Sheets using a hidden iframe (to avoid CORS issues)
+            // This is a common workaround for Google Apps Script web apps
+            const submitToGoogleSheets = () => {
+                // Show success message and handle form reset
+                const handleSuccess = () => {
+                    // Success message
+                    if (formStatus) {
+                        formStatus.classList.remove('d-none', 'alert-danger');
+                        formStatus.classList.add('alert-success');
+                        formStatus.innerHTML = 'Thank you for your RSVP! We\'ve received your response and look forward to celebrating with you.';
+                    }
+                    
+                    // Reset form
+                    rsvpForm.reset();
+                    
+                    // Reset attendance display
+                    toggleGuestDetails();
+                    
+                    // Scroll to message
+                    if (formStatus) {
+                        formStatus.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    
+                    // Optional: Redirect to success page after a delay
+                    setTimeout(() => {
+                        window.location.href = 'success.html';
+                    }, 3000);
+                    
+                    // Reset button state
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = 'Send RSVP';
+                    }
+                };
+                
+                // Create a temporary form and submit it
+                const tempForm = document.createElement('form');
+                tempForm.setAttribute('method', 'POST');
+                tempForm.setAttribute('action', scriptURL);
+                tempForm.setAttribute('target', 'hidden-iframe');
+                
+                // Add all params to the form
+                params.forEach((value, key) => {
+                    const input = document.createElement('input');
+                    input.setAttribute('type', 'hidden');
+                    input.setAttribute('name', key);
+                    input.setAttribute('value', value);
+                    tempForm.appendChild(input);
+                });
+                
+                // Create hidden iframe
+                const iframe = document.createElement('iframe');
+                iframe.setAttribute('name', 'hidden-iframe');
+                iframe.setAttribute('style', 'display:none');
+                document.body.appendChild(iframe);
+                document.body.appendChild(tempForm);
+                
+                // Add event listeners for iframe
+                iframe.addEventListener('load', handleSuccess);
+                iframe.addEventListener('error', () => {
+                    // Error message
+                    if (formStatus) {
+                        formStatus.classList.remove('d-none', 'alert-success');
+                        formStatus.classList.add('alert-danger');
+                        formStatus.innerHTML = 'Oops! There was a problem submitting your RSVP. Please try again or contact us directly.';
+                    }
+                    
+                    // Reset button state
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = 'Send RSVP';
+                    }
+                });
+                
+                // Submit the form
+                tempForm.submit();
+                
+                // Clean up after submission
+                setTimeout(() => {
+                    document.body.removeChild(tempForm);
+                    document.body.removeChild(iframe);
+                }, 5000);
+            };
+            
+            // Submit the form
+            submitToGoogleSheets();
+        });
+    }
+
 })();
